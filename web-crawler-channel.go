@@ -14,7 +14,7 @@ type Pair struct {
 	depth int
 }
 
-func crawRoutine(url string, depth int, ch chan Pair, fetcher Fetcher) {
+func crawlRoutine(url string, depth int, ch chan Pair, fetcher Fetcher) {
 	body, urls, err := fetcher.Fetch(url)
 	if err != nil {
 		ch <- Pair{[]string{}, 0}
@@ -40,7 +40,7 @@ func Crawl(url string, depth int, fetcher Fetcher) {
 			if !cache[u] {
 				cache[u] = true
 				n += 1
-				go crawRoutine(u, p.depth, ch, fetcher)
+				go crawlRoutine(u, p.depth, ch, fetcher)
 			}
 		}
 		n -= 1
